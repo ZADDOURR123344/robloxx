@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Type of Roblox Player Are You? 🎮</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .wrap { width: 100%; max-width: 480px; }
+
+    .step { display: none; animation: fadeUp 0.35s ease both; }
+    .step.on { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e8e8e8;
+      border-radius: 18px;
+      padding: 28px 24px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #EEF4FF;
+      color: #3B6DE8;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: #f8f8f8;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .stat-n { font-size: 18px; font-weight: 600; color: #111; }
+    .stat-l { font-size: 11px; color: #888; margin-top: 2px; }
+
+    .dots {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .dot {
+      height: 4px;
+      flex: 1;
+      background: #eee;
+      border-radius: 2px;
+      transition: background 0.3s;
+    }
+
+    .dot.done { background: #3B6DE8; }
+    .dot.active { background: #111; }
+
+    .question {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 16px;
+    }
+
+    .opts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .opt {
+      background: #f8f8f8;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 13px 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .opt:hover { border-color: #aaa; background: #fff; }
+    .opt.sel { border-color: #3B6DE8; background: #EEF4FF; color: #3B6DE8; }
+
+    .btn {
+      width: 100%;
+      padding: 13px;
+      background: #fff;
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #111;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn:hover { background: #f5f5f5; }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .btn.primary {
+      background: #111;
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .btn.primary:hover { background: #333; }
+
+    .btn.cta {
+      background: #3B6DE8;
+      color: #fff;
+      border-color: transparent;
+      font-size: 16px;
+      padding: 15px;
+      border-radius: 12px;
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .btn.cta:hover { background: #2a5bd6; animation: none; }
+
+    .result-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #EEF4FF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 16px;
+    }
+
+    .game-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .game {
+      background: #f8f8f8;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .game-name { font-size: 14px; font-weight: 600; color: #111; }
+    .game-tag { font-size: 11px; color: #888; margin-top: 2px; }
+
+    .divider { border: none; border-top: 1px solid #eee; margin: 16px 0; }
+
+    .cta-box {
+      background: #f8f8f8;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .cta-box p {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: #aaa;
+      text-align: center;
+    }
+
+    .taken {
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Step 1: Intro -->
+  <div class="step on" id="s1">
+    <div class="card">
+      <div class="badge">Roblox Quiz 2025</div>
+      <h1>What type of Roblox player are you?</h1>
+      <p class="sub">Answer 4 quick questions and discover which Roblox games match your personality — plus get a free bonus!</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-n">4</div><div class="stat-l">Questions</div></div>
+        <div class="stat"><div class="stat-n">30s</div><div class="stat-l">Duration</div></div>
+        <div class="stat"><div class="stat-n">Free</div><div class="stat-l">No cost</div></div>
+      </div>
+      <button class="btn primary" onclick="show('s2')">Start the quiz →</button>
+    </div>
+    <p class="taken">Taken by 48,200+ Roblox players</p>
+  </div>
+
+  <!-- Step 2: Q1 -->
+  <div class="step" id="s2">
+    <div class="card">
+      <div class="dots">
+        <div class="dot done"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <p class="question">When you join a Roblox game, what's the first thing you do?</p>
+      <div class="opts">
+        <div class="opt" onclick="pick(this,'2')">Explore the map</div>
+        <div class="opt" onclick="pick(this,'2')">Fight other players</div>
+        <div class="opt" onclick="pick(this,'2')">Build something</div>
+        <div class="opt" onclick="pick(this,'2')">Chat with friends</div>
+      </div>
+      <button class="btn" id="next2" disabled onclick="show('s3')">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Q2 -->
+  <div class="step" id="s3">
+    <div class="card">
+      <div class="dots">
+        <div class="dot done"></div>
+        <div class="dot done"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+      </div>
+      <p class="question">What's your favorite game style?</p>
+      <div class="opts">
+        <div class="opt" onclick="pick(this,'3')">Survival & horror</div>
+        <div class="opt" onclick="pick(this,'3')">Role play</div>
+        <div class="opt" onclick="pick(this,'3')">Simulator</div>
+        <div class="opt" onclick="pick(this,'3')">Obby / Parkour</div>
+      </div>
+      <button class="btn" id="next3" disabled onclick="show('s4')">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Q3 -->
+  <div class="step" id="s4">
+    <div class="card">
+      <div class="dots">
+        <div class="dot done"></div>
+        <div class="dot done"></div>
+        <div class="dot done"></div>
+        <div class="dot active"></div>
+      </div>
+      <p class="question">How many hours a week do you play Roblox?</p>
+      <div class="opts">
+        <div class="opt" onclick="pick(this,'4')">Less than 2 hrs</div>
+        <div class="opt" onclick="pick(this,'4')">2 – 5 hrs</div>
+        <div class="opt" onclick="pick(this,'4')">5 – 10 hrs</div>
+        <div class="opt" onclick="pick(this,'4')">10+ hrs</div>
+      </div>
+      <button class="btn" id="next4" disabled onclick="show('s5')">See my results →</button>
+    </div>
+  </div>
+
+  <!-- Step 5: Result -->
+  <div class="step" id="s5">
+    <div class="card">
+      <div class="result-icon">🎮</div>
+      <h1>You're an Explorer!</h1>
+      <p class="sub">You love discovering new worlds and secrets. These games are perfect for your style:</p>
+      <div class="game-list">
+        <div class="game">
+          <div class="game-name">Brookhaven RP</div>
+          <div class="game-tag">Role play · 7B+ visits</div>
+        </div>
+        <div class="game">
+          <div class="game-name">Adopt Me!</div>
+          <div class="game-tag">Simulation · 36B+ visits</div>
+        </div>
+        <div class="game">
+          <div class="game-name">Blox Fruits</div>
+          <div class="game-tag">Adventure · 25B+ visits</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="cta-box">
+        <p>Get daily Roblox tips, game guides, and exclusive content matched to your player type — totally free!</p>
+        <button class="btn cta" onclick="goCTA()">🎁 Claim my free bonus →</button>
+      </div>
+      <p class="footer-note">Takes less than 1 minute · 100% free</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('on'));
+    document.getElementById(id).classList.add('on');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function pick(el, step) {
+    el.closest('.opts').querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
+    el.classList.add('sel');
+    const btn = document.getElementById('next' + step);
+    if (btn) btn.disabled = false;
+  }
+
+  function goCTA() {
+    window.location.href = 'https://appchecker.space/cl/i/d22r5o';
+  }
+</script>
+
+</body>
+</html>
